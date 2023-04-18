@@ -32,15 +32,20 @@ sys_platform = sys.platform
 # use pre-built libraries on Windows
 
 def download_and_extract_windows_binaries(destdir):
-    url = "https://api.github.com/repos/lxml/libxml2-win-binaries/releases"
-    releases, _ = read_url(url, accept="application/vnd.github+json", as_json=True)
+    url = "https://api.github.com/repos/FrankRichterAnsys/libxml2-win-binaries/releases?per_page=5"
+    releases, _ = read_url(
+        url,
+        accept="application/vnd.github+json",
+        as_json=True,
+        github_api_token=os.environ.get("GITHUB_API_TOKEN"),
+    )
 
     max_release = {'tag_name': ''}
     for release in releases:
         if max_release['tag_name'] < release.get('tag_name', ''):
             max_release = release
 
-    url = "https://github.com/lxml/libxml2-win-binaries/releases/download/%s/" % max_release['tag_name']
+    url = "https://github.com/FrankRichterAnsys/libxml2-win-binaries/releases/download/%s/" % max_release['tag_name']
     filenames = [asset['name'] for asset in max_release.get('assets', ())]
 
     # Check for native ARM64 build or the environment variable that is set by
