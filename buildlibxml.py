@@ -37,7 +37,6 @@ def download_and_extract_windows_binaries(destdir):
         url,
         accept="application/vnd.github+json",
         as_json=True,
-        github_api_token=os.environ.get("GITHUB_API_TOKEN"),
     )
 
     max_release = {'tag_name': ''}
